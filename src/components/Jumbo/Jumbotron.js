@@ -9,7 +9,7 @@ class about extends React.Component{
              <Jumbo fluid className="jumbo">
                  <div className="overlay"></div>
                  <Container>
-                     <h1>Добро Пожаловать в ShayShake</h1>
+                     <h1>Добро Пожаловать в ШайShake</h1>
                      <p>Just Drink it and relax </p>
                  </Container>
              </Jumbo>
