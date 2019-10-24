@@ -4,32 +4,65 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Home from  './components/Home/Home';
 import About from  './components/About/About';
-import Contact from  './components/Contact/Contact';
-import Jumbo from './components/Jumbo/Jumbotron';
-import RegistrationModal from './components/User/Registration'
+import RegistrationModal from './components/User/Registration';
+import SignUp from './components/User/SignUP'
+import Basket from './components/Basket/Basket';
+import Axios from 'axios';
+import Cookies from 'universal-cookie';
+import Wrapper from './components/wrapper/Wrapper';
 
 
 class App extends React.Component {
   constructor(props){
     super(props);
-    
-    }
 
+    this.setAuth = this.setAuth.bind(this);
+
+    let cook = new Cookies();
+
+    this.state={
+      menuItems: [],
+      isAuth: cook.get('auth-token') ? true : false, 
+    }
+  }
+
+  setAuth(auth){
+    this.setState({
+      isAuth: auth
+    })
+  }
+
+  componentDidMount(){
+    Axios.get('http://10.200.1.10:3000/product/all')
+      .then((response) => {
+        this.setState({
+          menuItems: response.data
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   render (){
-  return (
+    return (
       <Router>
-        <div className="main">
-        <Navbar />
-        <Jumbo /> 
+        {this.state.isAuth ? <Navbar setAuth={this.setAuth} isAuth={this.state.isAuth} /> : null }
         <Switch>
-            <Route exact path="/"   component={Home}/> 
-            <Route path="/about"    component={About}/> 
-            <Route path="/contact"  component={Contact}/> 
-            <Route path="/register" component={RegistrationModal}/>
+            <Route exact path="/signin" render={(props) => {
+                return <SignUp {...props} setAuth={this.setAuth} isAuth={this.state.isAuth}/>
+              }} />
+            <Route exact path="/register" component={RegistrationModal}/>
+            
+            <Wrapper isAuth={this.state.isAuth}>
+              <Route exact path="/about" component={About}/>
+              <Route exact path="/" render={(props) => {
+                return <Home {...props} menuItems={this.state.menuItems} />
+              }} /> 
+            </Wrapper>
         </Switch>
-        </div>
-      </Router>  
+        {this.state.isAuth ? <Basket /> : null}
+      </Router>
       );
 }
 }

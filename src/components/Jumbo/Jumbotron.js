@@ -1,18 +1,36 @@
 import React from 'react'
-import {Jumbotron as Jumbo, Container} from 'react-bootstrap';
+import {Jumbotron as Carousel} from 'react-bootstrap';
 import './jumbo.css';
 
 class about extends React.Component{
     render(){
         return(
          <React.Fragment>
-             <Jumbo fluid className="jumbo">
-                 <div className="overlay"></div>
-                 <Container>
-                     <h1>Добро Пожаловать в ШайShake</h1>
-                     <p>Just Drink it and relax </p>
-                 </Container>
-             </Jumbo>
+             <Carousel>
+  <Carousel.Item className="jumbo">
+    <div className="overlay">
+    <Carousel.Caption>
+      <h2>ШайShake Family</h2>
+      <p>Just Drink and Relax</p>
+    </Carousel.Caption>
+    </div>
+  </Carousel.Item>
+  <Carousel.Item className="jumbo">
+  <div className="overlay">
+    <Carousel.Caption>
+      <h3>Second slide label</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    </Carousel.Caption>
+    </div>
+  </Carousel.Item>
+  <Carousel.Item className="jumbo">
+  <div className="overlay">
+    <Carousel.Caption>
+      <h2>ШайShake Family</h2>
+    </Carousel.Caption>
+    </div>
+  </Carousel.Item>
+</Carousel>
          </React.Fragment>   
         )
     }
