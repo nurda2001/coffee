@@ -1,5 +1,5 @@
 import React from 'react'
-import {Jumbotron as Carousel} from 'react-bootstrap';
+import {Carousel} from 'react-bootstrap';
 import './jumbo.css';
 
 class about extends React.Component{

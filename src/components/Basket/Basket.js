@@ -1,5 +1,7 @@
 import React from 'react';
-import {Button, Modal, Nav} from 'react-bootstrap';
+import {Link} from 'react-router-dom'
+import {Button, Modal, Nav, Image} from 'react-bootstrap';
+import './Basket.css';
 
 export default class Basket extends React.Component{
     constructor(props){
@@ -17,28 +19,41 @@ export default class Basket extends React.Component{
             show: !this.state.show
         });
     }
-
     render(){
+        let sum = 0;
+        for(let i = 0; i< this.props.basketItems.length; i++){
+            sum = this.props.basketItems[i].price + sum;
+        }
         return(
-            <div>
-                <Button variant="primary" onClick={this.openClose} fixed="top">
-                     Баскет
+            <div className="FixingIt">
+                <br />
+                <Button variant="warning" onClick={this.openClose} fixed="top">
+                     <Image src="https://firebasestorage.googleapis.com/v0/b/test-36f3c.appspot.com/o/add-to-basket.png?alt=media&token=302423f0-ad4c-4cd9-a540-88609b437b9e"></Image>
                 </Button>
 
                 <Modal show={this.state.show} onHide={this.openClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>Ваши Заказы</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>Кофе Эспрессо</Modal.Body>
+                    <Modal.Body>{
+                            this.props.basketItems ? this.props.basketItems.map((item, index) => {
+                                return <h6 key = {index} item={item}>{item.name}--- {item.price} Тенге <hr /></h6>
+                            }) : "loader"
+                        }
+                        <h5>Общее Количество : {Object.keys(this.props.basketItems).length}</h5>
+                        <h5>Общая Сумма : {sum} Тенге </h5></Modal.Body>
                     <Modal.Footer>
                         <Nav className="mr-auto">
-                        <Button variant="danger" onClick={this.openClose}>
+                        <Button variant="danger" onClick={() => {this.props.clearBasket(); this.openClose()}} >
                             Очистить
                         </Button>
                         </Nav>
-                        <Button variant="success" onClick={this.openClose}>
+                        {this.props.basketItems.length > 0 ? 
+                        <Link to="/order">
+                        <Button  variant="success" onClick={() =>{this.openClose()}}>
                              Заказать
                         </Button>
+                        </Link> : null}
                     </Modal.Footer>
                 </Modal>
             </div>

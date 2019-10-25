@@ -14,6 +14,7 @@ class navbar extends React.Component{
               </Navbar.Brand>
                 <Nav className="mr-auto">
                     <Nav.Link href="/about">О Нас</Nav.Link>
+                    <Nav.Link href="/myorders">Мои Заказы</Nav.Link>
                 </Nav>
                 { this.props.isAuth ? null :
                   <Link to="/signin">

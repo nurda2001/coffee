@@ -7,13 +7,10 @@ class SignUp extends React.Component{
     constructor(props){
         super(props);
         this.handleChange = this.handleChange.bind(this);
+        this.handleLogin = this.handleLogin.bind(this);
         this.state={
             login: "",
-            password: "",
-                isEmpty: (v) => !!v || 'Емайл быстроо',
-                validate: (v) => /^\w+([\.-]?\w+)*@\w+(\.\w{2,3})+$/.test(v) || 'Неправильная Почта',
-                 isRequired: (v) => !!v || 'Пароль нужен',
-                 isLength: (v) => (v && v.length >= 6) || 'Пароль Слишком короткий - минимум 6 символов'
+            password: ""
         }
     }
 
@@ -28,7 +25,7 @@ class SignUp extends React.Component{
     }
 
     handleLogin(){
-        if (this.state.login.length > 10 && this.state.password.length > 4) {
+        if (this.state.login.length > 10 && this.state.password.length >= 6) {
             Axios
                 .post('http://10.200.1.10:3000/auth/login', {
                     phone: this.state.login,
@@ -38,7 +35,6 @@ class SignUp extends React.Component{
                     let cook = new Cookies();
                     cook.set('auth-token', response.data.token);
                     this.props.setAuth(true);
-
                 })
                 .catch((err) => {
                     console.error(err);
@@ -66,20 +62,19 @@ class SignUp extends React.Component{
                         </Form.Group>
                         <Form.Group controlId="formBasicPassword">
                             <Form.Label>Пароль</Form.Label>
-                                <Form.Control size="sm" name="password"  onChange={this.handleChange} value={this.state.password} type="password" placeholder="" />
+                                <Form.Control size="sm" name="password" onChange={this.handleChange} value={this.state.password} type="password" placeholder="" />
                         </Form.Group>
                         <ButtonGroup>
                         <Link to="/register"><Button size="sm" variant="outline-warning" >Зарегистрироваться</Button></Link>
-                        <Button size="sm" variant="outline-warning">
+                        <span><Button size="sm" variant="outline-warning" onClick={this.handleLogin}>
                                     Войти
-                        </Button>
+                        </Button></span>
                         </ButtonGroup>
                         </Form>
                       
                         </Col>
                         <Col></Col>
-  </Row>
-               {/* <input type="text" ref="phone" onChange={this.handleChange} value={this.state.phone} /> */}        
+                        </Row>    
             </Container> 
            </React.Fragment>
               )

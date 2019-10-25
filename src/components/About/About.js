@@ -1,7 +1,7 @@
 import React from 'react'
 import {Container, Col, Row, Card, Button} from 'react-bootstrap'
 import './about.css'
-class about extends React.Component{
+class About extends React.Component{
     render(){
         return(
          <React.Fragment>
@@ -74,4 +74,4 @@ class about extends React.Component{
     }
 }
 
-export default about
+export default About    
