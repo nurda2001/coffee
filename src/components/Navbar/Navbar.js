@@ -8,7 +8,7 @@ class navbar extends React.Component{
         return(
         <div>
             
-            <Navbar bg="warning" variant="light" >
+            <Navbar bg="outline-warning" variant="light" >
               <Navbar.Brand href="/">
                 ШайShake
               </Navbar.Brand>

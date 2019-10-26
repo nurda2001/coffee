@@ -27,7 +27,7 @@ class SignUp extends React.Component{
     handleLogin(){
         if (this.state.login.length > 10 && this.state.password.length >= 6) {
             Axios
-                .post('http://10.200.1.10:3000/auth/login', {
+                .post('http://172.20.10.12:3000/auth/login', {
                     phone: this.state.login,
                     password: this.state.password
                 })

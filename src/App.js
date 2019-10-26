@@ -21,13 +21,15 @@ class App extends React.Component {
     this.setAuth = this.setAuth.bind(this);
     this.addToBasket = this.addToBasket.bind(this);
     this.clearBasket = this.clearBasket.bind(this);
+    this.setMyOrders = this.setMyOrders.bind(this);
 
     let cook = new Cookies();
 
     this.state={
       menuItems: [],
       isAuth: cook.get('auth-token') ? true : false, 
-      basketItems: cook.get('basket') ? cook.get('basket') : []
+      basketItems: cook.get('basket') ? cook.get('basket') : [],
+      myOrders:[]
     }
   }
   clearBasket(){
@@ -53,9 +55,17 @@ class App extends React.Component {
       isAuth: auth
     })
   }
+  
+  setMyOrders(orders){
+    this.setState({
+      myOrders: orders
+    }, ()=>{
+      console.log(this.state.myOrders)
+    })
+  }
 
   componentDidMount(){
-    Axios.get('http://10.200.1.10:3000/product/all')
+    Axios.get('http://172.20.10.12:3000/product/all')
       .then((response) => {
         this.setState({
           menuItems: response.data
@@ -80,9 +90,11 @@ class App extends React.Component {
             
             <Wrapper isAuth={this.state.isAuth}>
               <Route exact path="/about" component={About}/>
-              <Route exact path="/myorders" component={MyOrder}/>
+              <Route exact path="/myorders" render={(props) => {
+                return <MyOrder {...props} myOrders={this.state.myOrders} setMyOrders = {this.setMyOrders} />
+              }}/>
              {this.state.basketItems.length > 0 ? <Route exact path="/order" render={(props) => {
-               return <Order {...props} basketItems={this.state.basketItems} /> 
+               return <Order {...props} basketItems={this.state.basketItems} setMyOrders={this.setMyOrders} /> 
              }} /> : null }
               <Route exact path="/" render={(props) => {
                 return <Home {...props} addToBasket={this.addToBasket} menuItems={this.state.menuItems}  />

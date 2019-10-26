@@ -26,7 +26,7 @@ class RegistrationModal extends React.Component{
     handleRegister(){
         if (this.state.phone.length > 1 && this.state.name.length > 0 && this.state.password.length > 0) {
             axios({
-                url: 'http://10.200.1.10:3000/auth/register',
+                url: 'http://172.20.10.12:3000/auth/register',
                 data: {
                     phone: this.state.phone,
                     name: this.state.name,
